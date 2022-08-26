@@ -30,15 +30,19 @@ public class UserService implements UserDetailsService {
     private final ResetPasswordTokenRepository tokenRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ItemRepository itemRepository;
+    private final ResetPasswordTokenService tokenService;
+    private final MailService mailService;
 
     @Autowired
-    public UserService(UserRepository userRepository, ChampionOwnershipRepository championOwnershipRepository, ItemOwnershipRepository itemOwnershipRepository, ResetPasswordTokenRepository tokenRepository, BCryptPasswordEncoder passwordEncoder, ItemRepository itemRepository) {
+    public UserService(UserRepository userRepository, ChampionOwnershipRepository championOwnershipRepository, ItemOwnershipRepository itemOwnershipRepository, ResetPasswordTokenRepository tokenRepository, BCryptPasswordEncoder passwordEncoder, ItemRepository itemRepository, ResetPasswordTokenService tokenService, MailService mailService) {
         this.userRepository = userRepository;
         this.championOwnershipRepository = championOwnershipRepository;
         this.itemOwnershipRepository = itemOwnershipRepository;
         this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.itemRepository = itemRepository;
+        this.tokenService = tokenService;
+        this.mailService = mailService;
     }
 
     public Boolean userExists(String username) {
@@ -104,6 +108,7 @@ public class UserService implements UserDetailsService {
         user.setLevel(1);
         user.setExp(0);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(false);
         userRepository.save(user);
         List<Item> items = itemRepository.findAll();
         items.forEach(item -> {
@@ -113,6 +118,9 @@ public class UserService implements UserDetailsService {
             ownership.setItemCount(0);
             itemOwnershipRepository.save(ownership);
         });
+        long duration = 60 * 60 * 1000;
+        tokenService.generateToken(user, duration);
+        mailService.sendValidateAccountLink(user);
     }
 
     public void performPurchase(String username, Integer amount) throws Exception {
@@ -201,7 +209,8 @@ public class UserService implements UserDetailsService {
                 user.getPicture(),
                 user.getLevel(),
                 user.getExp(),
-                user.getRole()
+                user.getRole(),
+                user.isEnabled()
         );
     }
 
@@ -227,6 +236,9 @@ public class UserService implements UserDetailsService {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole()));
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+        return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
+                .password(user.getPassword())
+                .disabled(!user.isEnabled())
+                .authorities(authorities).build();
     }
 }

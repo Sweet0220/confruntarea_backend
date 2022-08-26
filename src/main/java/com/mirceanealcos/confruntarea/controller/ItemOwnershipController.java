@@ -110,4 +110,24 @@ public class ItemOwnershipController {
         }
     }
 
+    @GetMapping(path = "/increase/{id}")
+    public ResponseEntity<String> increaseCount(@PathVariable("id") Long id) {
+        try {
+            itemOwnershipService.increaseCount(id);
+            return new ResponseEntity<>("Link updated successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(path = "/decrease/{id}")
+    public ResponseEntity<String> decreaseCount(@PathVariable("id") Long id) {
+        try {
+            itemOwnershipService.decreaseCount(id);
+            return new ResponseEntity<>("Link updated successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

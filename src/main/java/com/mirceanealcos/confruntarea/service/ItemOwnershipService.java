@@ -112,6 +112,26 @@ public class ItemOwnershipService {
         itemOwnershipRepository.deleteById(id);
     }
 
+    public void increaseCount(Long id) throws Exception {
+        ItemOwnership ownership = itemOwnershipRepository.findById(id).orElse(null);
+        if(ownership == null) {
+            throw new Exception("Link does not exist!");
+        }
+        ownership.setItemCount(ownership.getItemCount() + 1);
+        itemOwnershipRepository.save(ownership);
+    }
+
+    public void decreaseCount(Long id) throws Exception {
+        ItemOwnership ownership = itemOwnershipRepository.findById(id).orElse(null);
+        if(ownership == null) {
+            throw new Exception("Link does not exist!");
+        }
+        if(ownership.getItemCount() > 0) {
+            ownership.setItemCount(ownership.getItemCount() - 1);
+            itemOwnershipRepository.save(ownership);
+        }
+    }
+
     private ItemOwnershipDTO toItemOwnershipDTO(ItemOwnership itemOwnership) {
         return new ItemOwnershipDTO(
                 itemOwnership.getId(),

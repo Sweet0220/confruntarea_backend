@@ -28,16 +28,9 @@ public class User {
     private String picture;
     private Integer level;
     private Integer exp;
+    private boolean isEnabled;
     @OneToOne(mappedBy = "user")
     private ResetPasswordToken passwordToken;
-
-    public ResetPasswordToken getPasswordToken() {
-        return passwordToken;
-    }
-
-    public void setPasswordToken(ResetPasswordToken passwordToken) {
-        this.passwordToken = passwordToken;
-    }
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     @JsonInclude
@@ -55,6 +48,22 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public ResetPasswordToken getPasswordToken() {
+        return passwordToken;
+    }
+
+    public void setPasswordToken(ResetPasswordToken passwordToken) {
+        this.passwordToken = passwordToken;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 
     public Long getId() {

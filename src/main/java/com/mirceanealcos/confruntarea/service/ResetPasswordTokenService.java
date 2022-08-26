@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
 @Service
 @Slf4j
+@Transactional
 public class ResetPasswordTokenService {
 
     private final ResetPasswordTokenRepository tokenRepository;
@@ -29,7 +31,7 @@ public class ResetPasswordTokenService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void generateToken(User user) {
+    public void generateToken(User user, long duration) {
         if(tokenRepository.getByUserUsername(user.getUsername()) != null) {
             tokenRepository.deleteByUserUsername(user.getUsername());
         }
@@ -38,7 +40,7 @@ public class ResetPasswordTokenService {
         newToken.setUser(user);
         newToken.setToken(token);
         Date currentTime = new Date();
-        Date expiryDate = new Date(currentTime.getTime() + (5 * 60 * 1000));
+        Date expiryDate = new Date(currentTime.getTime() + duration);
         newToken.setExpiryDate(expiryDate);
         tokenRepository.save(newToken);
     }
@@ -73,6 +75,25 @@ public class ResetPasswordTokenService {
         userRepository.save(user);
         ResetPasswordToken resetToken = tokenRepository.getByUserUsername(credentials.getUsername());
         tokenRepository.delete(resetToken);
+    }
+
+    public void validateAccount(String token, String username) throws Exception{
+        try {
+            validateToken(token, username);
+            User user = userRepository.findByUsername(username);
+            user.setEnabled(true);
+            userRepository.save(user);
+            ResetPasswordToken tok = tokenRepository.getByUserUsername(username);
+            tokenRepository.delete(tok);
+        } catch (Exception e) {
+            if(e.getMessage().equals("Token expired!")) {
+                ResetPasswordToken tok = tokenRepository.getByUserUsername(username);
+                tokenRepository.delete(tok);
+                User user = userRepository.findByUsername(username);
+                userRepository.delete(user);
+            }
+            throw e;
+        }
     }
 
 }

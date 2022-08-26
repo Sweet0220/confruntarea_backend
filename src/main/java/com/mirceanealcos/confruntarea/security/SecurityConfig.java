@@ -98,12 +98,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
             "/api/abilities",
             "/api/abilities/champion_name/**",
             "/api/monsters",
+            "/api/item-ownerships/decrease/**",
+            "/api/item-ownerships/increase/**",
             "/api/champion-ownerships/",
             "/api/champion-ownerships/user-name/**",
             "/api/champion-ownerships/champion-name/**",
             "/api/champion-ownerships/link-user/**",
             "/mail/**",
-            "/reset-password/**"
+            "/reset-password/**",
+            "/email-validation"
     };
 
     private static final String[] adminPaths = {

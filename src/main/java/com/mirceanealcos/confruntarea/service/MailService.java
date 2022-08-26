@@ -61,6 +61,21 @@ public class MailService {
         log.info("Reset password email successfully sent to " + email);
     }
 
+    public void sendValidateAccountLink(User user) {
+        ResetPasswordToken token = tokenRepository.getByUserUsername(user.getUsername());
+        String subject = "Validate your account";
+        String email = user.getEmail();
+        String body = "Hi there, I am Marcel from project_confruntarea and I am here to deliver you the means to start your journey! \n";
+        body += "A new account has been associated with your mail address: " + user.getUsername() + '\n';
+        body += "To activate your account use the following link: http://localhost:4200/validate?token=" + token.getToken() + "&username=" + user.getUsername() + '\n';
+        body += "The link is valid for one hour. If you do not use the link in time, you will have to create a new account. =P\n";
+        body += "If you weren't the one to create this account, ignore this email and contact our support team.\n";
+        body += "Have fun!";
+
+        senderService.sendEmail(email,subject,body);
+        log.info("Validation email successfully sent to " + email);
+    }
+
 
 
 }

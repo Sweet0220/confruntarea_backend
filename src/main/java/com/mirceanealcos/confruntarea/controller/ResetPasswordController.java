@@ -33,7 +33,8 @@ public class ResetPasswordController {
     public ResponseEntity<String> checkUser(@PathVariable("username") String username) {
         try {
             if(userService.userExists(username)) {
-                tokenService.generateToken(userService.getUserEntityByUsername(username));
+                long duration = 5 * 60 * 1000;
+                tokenService.generateToken(userService.getUserEntityByUsername(username), duration);
                 mailService.sendResetPasswordLink(username);
                 return new ResponseEntity<>("Mail sent successfully!", HttpStatus.OK);
             }

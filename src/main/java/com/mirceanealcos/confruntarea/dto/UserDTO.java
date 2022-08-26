@@ -14,13 +14,13 @@ public class UserDTO implements Serializable {
     private String picture;
     private Integer level;
     private Integer exp;
-
     private String role;
+    private boolean isEnabled;
 
     public UserDTO() {
     }
 
-    public UserDTO(String username,String password, String email, Integer funds, String picture, Integer level, Integer exp, String role) {
+    public UserDTO(String username,String password, String email, Integer funds, String picture, Integer level, Integer exp, String role, boolean isEnabled) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -29,6 +29,15 @@ public class UserDTO implements Serializable {
         this.level = level;
         this.exp = exp;
         this.role = role;
+        this.isEnabled = isEnabled;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 
     public String getRole() {
