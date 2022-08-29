@@ -30,6 +30,10 @@ public class MonsterService {
 
     }
 
+    public List<Monster> getAllMonstersAsEntity() {
+        return this.monsterRepository.findAll();
+    }
+
     public MonsterDTO getMonsterById(Long id) throws Exception {
         Monster monster = monsterRepository.findById(id).orElse(null);
         if(monster == null) {

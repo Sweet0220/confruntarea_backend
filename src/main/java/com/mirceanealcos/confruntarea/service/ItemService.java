@@ -32,6 +32,10 @@ public class ItemService {
         return itemDTOS;
     }
 
+    public List<Item> getAllItemsAsEntity() {
+        return itemRepository.findAll();
+    }
+
     public List<ItemDTO> getItemsByType(String type) {
 
         List<Item> items = itemRepository.findByType(type);

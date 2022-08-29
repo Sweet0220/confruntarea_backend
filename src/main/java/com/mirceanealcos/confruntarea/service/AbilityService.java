@@ -38,6 +38,10 @@ public class AbilityService {
         return abilityDTOS;
     }
 
+    public List<Ability> getAllAbilitiesAsEntity() {
+        return this.abilityRepository.findAll();
+    }
+
     /**
      * This function gets all abilities that correspond to a certain champion from the DB
      * @param name represents the champion's name

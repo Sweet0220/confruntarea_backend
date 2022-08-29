@@ -32,6 +32,10 @@ public class ChampionService {
         return championDTOS;
     }
 
+    public List<Champion> getAllChampionsAsEntity() {
+        return this.championRepository.findAll();
+    }
+
     public List<ChampionDTO> getChampionsByUserName(String username) {
 
         List<Champion> champions = championRepository.findByOwnershipsUserUsername(username);

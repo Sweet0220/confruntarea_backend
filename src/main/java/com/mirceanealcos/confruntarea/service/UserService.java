@@ -60,6 +60,10 @@ public class UserService implements UserDetailsService {
         return dtos;
     }
 
+    public List<User> getAllUsersAsEntity() {
+        return userRepository.findAll();
+    }
+
     public UserDTO getUserByUsername(String username) {
         User user = userRepository.findByUsername(username);
         return toUserDTO(user);
@@ -152,7 +156,7 @@ public class UserService implements UserDetailsService {
         }
 
         if(userDTO.getPassword() != null) {
-            user.setPassword(userDTO.getPassword());
+            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             hasChanged = true;
         }
 
