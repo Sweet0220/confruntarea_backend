@@ -2,6 +2,7 @@ package com.mirceanealcos.confruntarea.controller;
 
 import com.mirceanealcos.confruntarea.dto.AbilityDTO;
 import com.mirceanealcos.confruntarea.service.AbilityService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(path = "/api/abilities")
+@Slf4j
 public class AbilityController {
 
     private final AbilityService abilityService;
@@ -32,6 +34,7 @@ public class AbilityController {
             }
             return new ResponseEntity<>(abilityDTOS, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -45,6 +48,7 @@ public class AbilityController {
             }
             return new ResponseEntity<>(abilityDTOS, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -58,6 +62,7 @@ public class AbilityController {
             }
             return new ResponseEntity<>(abilityDTO, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -71,6 +76,7 @@ public class AbilityController {
             }
             return new ResponseEntity<>(abilityDTO, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -81,6 +87,7 @@ public class AbilityController {
             abilityService.addAbilityToChampion(name, abilityDTO);
             return new ResponseEntity<>("Ability added successsfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -91,6 +98,7 @@ public class AbilityController {
             abilityService.updateAbility(name, abilityDTO);
             return new ResponseEntity<>("Ability updated successsfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -101,6 +109,7 @@ public class AbilityController {
             abilityService.deleteAbility(name);
             return new ResponseEntity<>("Ability deleted successsfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

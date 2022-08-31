@@ -2,6 +2,7 @@ package com.mirceanealcos.confruntarea.controller;
 
 import com.mirceanealcos.confruntarea.mail.EmailSenderService;
 import com.mirceanealcos.confruntarea.service.MailService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/mail")
+@Slf4j
 public class MailController {
 
     private final MailService mailService;
@@ -27,6 +29,7 @@ public class MailController {
             mailService.sendUsernames(email);
             return new ResponseEntity<>("Email sent successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

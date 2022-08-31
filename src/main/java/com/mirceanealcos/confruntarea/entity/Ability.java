@@ -1,6 +1,7 @@
 package com.mirceanealcos.confruntarea.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mirceanealcos.confruntarea.entity.enums.AbilityType;
 
 import javax.persistence.*;
 
@@ -18,7 +19,7 @@ public class Ability {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String type;
+    private AbilityType type;
     private Integer healing;
     private Integer damage;
     private String picture;
@@ -35,6 +36,14 @@ public class Ability {
 
     }
 
+    public AbilityType getType() {
+        return type;
+    }
+
+    public void setType(AbilityType type) {
+        this.type = type;
+    }
+
     public Long getId() {
         return id;
     }
@@ -45,14 +54,6 @@ public class Ability {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Integer getHealing() {

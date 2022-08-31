@@ -1,7 +1,9 @@
 package com.mirceanealcos.confruntarea.controller;
 
 import com.mirceanealcos.confruntarea.dto.ItemDTO;
+import com.mirceanealcos.confruntarea.entity.enums.ItemType;
 import com.mirceanealcos.confruntarea.service.ItemService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/items")
+@Slf4j
 public class ItemController {
 
     private final ItemService itemService;
@@ -33,12 +36,13 @@ public class ItemController {
             }
             return new ResponseEntity<>(itemDTOS, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping(path = "/type/{type}")
-    public ResponseEntity<List<ItemDTO>> getItemsByType(@PathVariable("type") String type) {
+    public ResponseEntity<List<ItemDTO>> getItemsByType(@PathVariable("type") ItemType type) {
         try {
             List<ItemDTO> itemDTOS = itemService.getItemsByType(type);
             if(itemDTOS.isEmpty()) {
@@ -46,6 +50,7 @@ public class ItemController {
             }
             return new ResponseEntity<>(itemDTOS, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -59,6 +64,7 @@ public class ItemController {
             }
             return new ResponseEntity<>(itemDTOS, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -72,6 +78,7 @@ public class ItemController {
             }
             return new ResponseEntity<>(itemDTO, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -85,6 +92,7 @@ public class ItemController {
             }
             return new ResponseEntity<>(itemDTO, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -95,6 +103,7 @@ public class ItemController {
             itemService.addItem(itemDTO);
             return new ResponseEntity<>("Item added successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -105,6 +114,7 @@ public class ItemController {
             itemService.updateItem(name, itemDTO);
             return new ResponseEntity<>("Item updated successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -115,6 +125,7 @@ public class ItemController {
             itemService.deleteItemByName(name);
             return new ResponseEntity<>("Item deleted successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

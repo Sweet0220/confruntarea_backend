@@ -40,6 +40,7 @@ public class ResetPasswordController {
             }
             return new ResponseEntity<>("User does not exist!", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -50,6 +51,7 @@ public class ResetPasswordController {
             tokenService.validateToken(token, username);
             return new ResponseEntity<>("Token is valid!", HttpStatus.OK);
         } catch(Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -60,6 +62,7 @@ public class ResetPasswordController {
             tokenService.changePassword(credentials, token);
             return new ResponseEntity<>("Password changed successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

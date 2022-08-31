@@ -1,6 +1,7 @@
 package com.mirceanealcos.confruntarea.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mirceanealcos.confruntarea.entity.enums.ItemType;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -26,7 +27,7 @@ public class Item {
     @Column(name = "bonus_hp")
     private Integer bonusHp;
     private Integer price;
-    private String type;
+    private ItemType type;
     private String picture;
 
     @Column(name = "name_color")
@@ -60,11 +61,11 @@ public class Item {
         this.price = price;
     }
 
-    public String getType() {
+    public ItemType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ItemType type) {
         this.type = type;
     }
 

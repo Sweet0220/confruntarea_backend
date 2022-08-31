@@ -2,8 +2,12 @@ package com.mirceanealcos.confruntarea.service;
 
 import com.mirceanealcos.confruntarea.dto.ItemDTO;
 import com.mirceanealcos.confruntarea.entity.Item;
+import com.mirceanealcos.confruntarea.entity.ItemOwnership;
+import com.mirceanealcos.confruntarea.entity.User;
+import com.mirceanealcos.confruntarea.entity.enums.ItemType;
 import com.mirceanealcos.confruntarea.repository.ItemOwnershipRepository;
 import com.mirceanealcos.confruntarea.repository.ItemRepository;
+import com.mirceanealcos.confruntarea.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +19,13 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ItemOwnershipRepository itemOwnershipRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ItemService(ItemRepository itemRepository, ItemOwnershipRepository itemOwnershipRepository) {
+    public ItemService(ItemRepository itemRepository, ItemOwnershipRepository itemOwnershipRepository, UserRepository userRepository) {
         this.itemRepository = itemRepository;
         this.itemOwnershipRepository = itemOwnershipRepository;
+        this.userRepository = userRepository;
     }
 
     public List<ItemDTO> getAllItems() {
@@ -36,7 +42,7 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-    public List<ItemDTO> getItemsByType(String type) {
+    public List<ItemDTO> getItemsByType(ItemType type) {
 
         List<Item> items = itemRepository.findByType(type);
         List<ItemDTO> itemDTOS = new ArrayList<>();
@@ -74,8 +80,19 @@ public class ItemService {
         }
 
         Item item = toEntity(itemDTO);
-
         itemRepository.save(item);
+
+        List<User> users = userRepository.findAll();
+
+        for(User user : users) {
+            ItemOwnership ownership = new ItemOwnership();
+            ownership.setItemCount(0);
+            ownership.setItem(item);
+            ownership.setUser(user);
+            itemOwnershipRepository.save(ownership);
+        }
+
+
     }
 
     public void updateItem(String name, ItemDTO itemDTO) throws Exception{

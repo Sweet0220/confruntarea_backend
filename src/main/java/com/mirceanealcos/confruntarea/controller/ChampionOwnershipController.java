@@ -2,6 +2,7 @@ package com.mirceanealcos.confruntarea.controller;
 
 import com.mirceanealcos.confruntarea.dto.ChampionOwnershipDTO;
 import com.mirceanealcos.confruntarea.service.ChampionOwnershipService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/champion-ownerships")
+@Slf4j
 public class ChampionOwnershipController {
 
     private final ChampionOwnershipService championOwnershipService;
@@ -32,6 +34,7 @@ public class ChampionOwnershipController {
             }
             return new ResponseEntity<>(championOwnershipDTOS,HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -45,6 +48,7 @@ public class ChampionOwnershipController {
             }
             return new ResponseEntity<>(championOwnershipDTOS,HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -58,6 +62,7 @@ public class ChampionOwnershipController {
             }
             return new ResponseEntity<>(championOwnershipDTOS,HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -68,6 +73,7 @@ public class ChampionOwnershipController {
             championOwnershipService.addOwnership(username,champion_name,championOwnershipDTO);
             return new ResponseEntity<>("Link successfully made!",HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,6 +84,7 @@ public class ChampionOwnershipController {
             championOwnershipService.updateOwnership(id,championOwnershipDTO);
             return new ResponseEntity<>("Link updated successfully!",HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -88,6 +95,7 @@ public class ChampionOwnershipController {
             championOwnershipService.deleteOwnership(id);
             return new ResponseEntity<>("Link deleted successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

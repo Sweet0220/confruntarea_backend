@@ -3,6 +3,7 @@ package com.mirceanealcos.confruntarea.controller;
 
 import com.mirceanealcos.confruntarea.dto.MonsterDTO;
 import com.mirceanealcos.confruntarea.service.MonsterService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/monsters")
+@Slf4j
 public class MonsterController {
 
     private final MonsterService monsterService;
@@ -35,6 +37,7 @@ public class MonsterController {
             }
             return new ResponseEntity<>(monsterDTOS, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -45,6 +48,7 @@ public class MonsterController {
             MonsterDTO monsterDTO = monsterService.getMonsterById(id);
             return new ResponseEntity<>(monsterDTO, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -55,6 +59,7 @@ public class MonsterController {
             MonsterDTO monsterDTO = monsterService.getMonsterByName(name);
             return new ResponseEntity<>(monsterDTO, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -68,6 +73,7 @@ public class MonsterController {
             }
             return new ResponseEntity<>(monsters, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,6 +84,7 @@ public class MonsterController {
             monsterService.addMonster(monsterDTO);
             return new ResponseEntity<>("Monster added successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -88,6 +95,7 @@ public class MonsterController {
             monsterService.updateMonster(name, monsterDTO);
             return new ResponseEntity<>("Monster updated successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -98,6 +106,7 @@ public class MonsterController {
             monsterService.deleteMonsterByName(name);
             return new ResponseEntity<>("Monster deleted successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

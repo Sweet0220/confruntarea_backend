@@ -2,6 +2,7 @@ package com.mirceanealcos.confruntarea.controller;
 
 import com.mirceanealcos.confruntarea.dto.ItemOwnershipDTO;
 import com.mirceanealcos.confruntarea.service.ItemOwnershipService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(path = "/api/item-ownerships")
+@Slf4j
 public class ItemOwnershipController {
 
     private final ItemOwnershipService itemOwnershipService;
@@ -33,6 +35,7 @@ public class ItemOwnershipController {
             }
             return new ResponseEntity<>(itemOwnershipDTOS, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -46,6 +49,7 @@ public class ItemOwnershipController {
             }
             return new ResponseEntity<>(itemOwnershipDTOS, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -59,6 +63,7 @@ public class ItemOwnershipController {
             }
             return new ResponseEntity<>(itemOwnershipDTOS, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -73,7 +78,7 @@ public class ItemOwnershipController {
             }
             return new ResponseEntity<>(ownershipDTO, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -86,6 +91,7 @@ public class ItemOwnershipController {
             itemOwnershipService.addItemOwnership(username, itemName, itemOwnershipDTO);
             return new ResponseEntity<>("Succesfully linked item to user!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -96,6 +102,7 @@ public class ItemOwnershipController {
             itemOwnershipService.updateItemOwnership(id, itemOwnershipDTO);
             return new ResponseEntity<>("Successfully updated link!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -106,6 +113,7 @@ public class ItemOwnershipController {
             itemOwnershipService.deleteItemOwnership(id);
             return new ResponseEntity<>("Successfully deleted link!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -116,6 +124,7 @@ public class ItemOwnershipController {
             itemOwnershipService.increaseCount(id);
             return new ResponseEntity<>("Link updated successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -126,6 +135,7 @@ public class ItemOwnershipController {
             itemOwnershipService.decreaseCount(id);
             return new ResponseEntity<>("Link updated successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

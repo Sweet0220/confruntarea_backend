@@ -3,6 +3,7 @@ package com.mirceanealcos.confruntarea.controller;
 
 import com.mirceanealcos.confruntarea.dto.ChampionDTO;
 import com.mirceanealcos.confruntarea.service.ChampionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(path = "/api/champions")
+@Slf4j
 public class ChampionController {
 
     private final ChampionService championService;
@@ -34,6 +36,7 @@ public class ChampionController {
             }
             return new ResponseEntity<>(championDTOS, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -44,6 +47,7 @@ public class ChampionController {
             ChampionDTO championDTO = championService.getChampionById(id);
             return new ResponseEntity<>(championDTO, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -54,6 +58,7 @@ public class ChampionController {
             ChampionDTO championDTO = championService.getChampionByName(name);
             return new ResponseEntity<>(championDTO, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -67,6 +72,7 @@ public class ChampionController {
             }
             return new ResponseEntity<>(championDTOS, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -77,6 +83,7 @@ public class ChampionController {
             championService.addChampion(championDTO);
             return new ResponseEntity<>("Champion added successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -87,6 +94,7 @@ public class ChampionController {
             championService.updateChampion(name, championDTO);
             return new ResponseEntity<>("Champion updated successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -97,6 +105,7 @@ public class ChampionController {
             championService.deleteChampion(name);
             return new ResponseEntity<>("Champion deleted successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

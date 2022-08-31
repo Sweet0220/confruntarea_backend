@@ -1,6 +1,7 @@
 package com.mirceanealcos.confruntarea.repository;
 
 import com.mirceanealcos.confruntarea.entity.Item;
+import com.mirceanealcos.confruntarea.entity.enums.ItemType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    List<Item> findByType(String type);
+    List<Item> findByType(ItemType type);
 
     Item findByName(String name);
 

@@ -1,6 +1,8 @@
-package com.mirceanealcos.confruntarea.excel;
+package com.mirceanealcos.confruntarea.excel.exporter;
 
 import com.mirceanealcos.confruntarea.entity.*;
+import com.mirceanealcos.confruntarea.entity.enums.AbilityType;
+import com.mirceanealcos.confruntarea.entity.enums.ItemType;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,6 +28,7 @@ public class ExcelExporter {
     private List<Item> items;
     private List<Monster> monsters;
     private List<Ability> abilities;
+
 
     public ExcelExporter(List<Champion> champions, List<User> users, List<Item> items, List<Monster> monsters, List<Ability> abilities) {
         this.champions = champions;
@@ -111,7 +114,7 @@ public class ExcelExporter {
     private void initMonsterSheet() {
         monsterSheet = workbook.createSheet("Monsters");
 
-        Row row = monsterSheet.createRow(0);
+        Row row  = monsterSheet.createRow(0);
 
         CellStyle style = workbook.createCellStyle();
         XSSFFont font = workbook.createFont();
@@ -162,6 +165,8 @@ public class ExcelExporter {
             cell.setCellValue((Boolean) value);
         } else if(value instanceof Integer){
             cell.setCellValue((Integer) value);
+        } else if(value instanceof ItemType || value instanceof AbilityType) {
+            cell.setCellValue(value.toString());
         } else {
             cell.setCellValue((String) value);
         }
@@ -251,7 +256,7 @@ public class ExcelExporter {
             createCell(abilitySheet, row, columnCount++, ability.getDamage(), style);
             createCell(abilitySheet, row, columnCount++, ability.getPicture(), style);
             createCell(abilitySheet, row, columnCount++, ability.getManaCost(), style);
-            createCell(abilitySheet, row, columnCount++, ability.getChampion().getName(), style);
+            createCell(abilitySheet, row, columnCount, ability.getChampion().getName(), style);
         }
 
     }

@@ -1,5 +1,7 @@
 package com.mirceanealcos.confruntarea.dto;
 
+import com.mirceanealcos.confruntarea.entity.enums.ItemType;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,14 +14,14 @@ public class ItemDTO implements Serializable {
     private Integer bonusDamage;
     private Integer bonusHp;
     private Integer price;
-    private String type;
+    private ItemType type;
     private String picture;
     private String nameColor;
 
     public ItemDTO() {
     }
 
-    public ItemDTO(String name, Integer bonusDamage, Integer bonusHp, Integer price, String type, String picture, String nameColor) {
+    public ItemDTO(String name, Integer bonusDamage, Integer bonusHp, Integer price, ItemType type, String picture, String nameColor) {
         this.name = name;
         this.bonusDamage = bonusDamage;
         this.bonusHp = bonusHp;
@@ -61,11 +63,11 @@ public class ItemDTO implements Serializable {
         this.price = price;
     }
 
-    public String getType() {
+    public ItemType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ItemType type) {
         this.type = type;
     }
 

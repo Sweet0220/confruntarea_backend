@@ -10,6 +10,7 @@ import com.mirceanealcos.confruntarea.dto.UserLoginDTO;
 import com.mirceanealcos.confruntarea.dto.UserRegisterDTO;
 import com.mirceanealcos.confruntarea.entity.User;
 import com.mirceanealcos.confruntarea.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
  */
 @RestController
 @RequestMapping(path = "/api/users")
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -54,6 +56,7 @@ public class UserController {
             }
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -67,6 +70,7 @@ public class UserController {
             }
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -80,6 +84,7 @@ public class UserController {
             }
             return new ResponseEntity<>(userDTOS, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -90,6 +95,7 @@ public class UserController {
             userService.registerUser(userRegisterDTO);
             return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -103,7 +109,7 @@ public class UserController {
      */
     @GetMapping(path="/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //to-do: make a java util class and move this functionality there
+        //to-do: make a jwt util class and move this functionality there
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
@@ -128,6 +134,7 @@ public class UserController {
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
             } catch (Exception e) {
+                log.error(e.getMessage());
                 response.setHeader("error", e.getMessage());
                 response.setStatus(FORBIDDEN.value());
                 //response.sendError(FORBIDDEN.value());
@@ -148,6 +155,7 @@ public class UserController {
             userService.performPurchase(username, amount);
             return new ResponseEntity<>("Purchase successfully made!", OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), INTERNAL_SERVER_ERROR);
         }
     }
@@ -158,6 +166,7 @@ public class UserController {
             userService.updateUser(username, userDTO);
             return new ResponseEntity<>("User with username " + username + " updated successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -168,6 +177,7 @@ public class UserController {
             userService.deleteUserByUsername(username);
             return new ResponseEntity<>("User with username " + username + " deleted successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

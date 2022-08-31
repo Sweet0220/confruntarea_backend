@@ -1,6 +1,7 @@
 package com.mirceanealcos.confruntarea.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mirceanealcos.confruntarea.entity.enums.AbilityType;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,7 +11,7 @@ import java.util.Objects;
  */
 public class AbilityDTO implements Serializable {
     private String name;
-    private String type;
+    private AbilityType type;
     private Integer healing;
     private Integer damage;
     private String picture;
@@ -19,7 +20,7 @@ public class AbilityDTO implements Serializable {
     public AbilityDTO() {
     }
 
-    public AbilityDTO(String name, String type, Integer healing, Integer damage, String picture, Integer manaCost) {
+    public AbilityDTO(String name, AbilityType type, Integer healing, Integer damage, String picture, Integer manaCost) {
         this.name = name;
         this.type = type;
         this.healing = healing;
@@ -36,11 +37,11 @@ public class AbilityDTO implements Serializable {
         this.name = name;
     }
 
-    public String getType() {
+    public AbilityType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(AbilityType type) {
         this.type = type;
     }
 
