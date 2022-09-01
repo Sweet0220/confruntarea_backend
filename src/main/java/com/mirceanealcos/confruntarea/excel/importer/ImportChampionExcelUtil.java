@@ -49,19 +49,19 @@ public class ImportChampionExcelUtil {
                             champion.setName(currentCell.getStringCellValue());
                             break;
                         case 2:
-                            Integer hp = Math.round(currentCell.getErrorCellValue());
+                            Integer hp = Math.toIntExact(Math.round(currentCell.getNumericCellValue()));
                             champion.setHp(hp);
                             break;
                         case 3:
-                            Integer damage = Math.round(currentCell.getErrorCellValue());
+                            Integer damage = Math.toIntExact(Math.round(currentCell.getNumericCellValue()));
                             champion.setBaseDamage(damage);
                             break;
                         case 4:
-                            Integer price = Math.round(currentCell.getErrorCellValue());
+                            Integer price = Math.toIntExact(Math.round(currentCell.getNumericCellValue()));
                             champion.setPrice(price);
                             break;
                         case 5:
-                            Integer mana = Math.round(currentCell.getErrorCellValue());
+                            Integer mana = Math.toIntExact(Math.round(currentCell.getNumericCellValue()));
                             champion.setMana(mana);
                             break;
                         case 6:

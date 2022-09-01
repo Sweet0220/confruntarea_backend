@@ -30,17 +30,16 @@ public class ExcelService {
         this.monsterRepository = monsterRepository;
     }
 
-    public List<Champion> saveChampions(MultipartFile file) throws Exception {
-        List<Champion> champions = new ArrayList<>();
+    public int saveChampions(MultipartFile file, List<Champion> failedChampions) throws Exception {
+        List<Champion> champions;
         int success = 0;
+        failedChampions = new ArrayList<>();
 
         champions = ImportChampionExcelUtil.excelToChampions(file.getInputStream());
 
         if(champions.isEmpty()) {
             throw new Exception("Excel file provided is empty..");
         }
-
-        List<Champion> failedChampions = new ArrayList<>();
 
         for(Champion champion : champions) {
             try {
@@ -52,7 +51,10 @@ public class ExcelService {
             }
         }
 
-        return failedChampions;
+        return success;
+    }
 
+    public List<Champion> getChampionListFromExcelFile(MultipartFile file) throws IOException{
+        return ImportChampionExcelUtil.excelToChampions(file.getInputStream());
     }
 }

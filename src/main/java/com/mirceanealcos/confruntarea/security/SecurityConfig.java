@@ -115,6 +115,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
             "/api/abilities/**",
             "/api/items/**",
             "/api/monsters/**",
-            "/export/excel/**"
+            "/export/excel/**",
+            "/import/excel/**"
     };
 }
