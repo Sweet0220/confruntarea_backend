@@ -1,9 +1,9 @@
 package com.mirceanealcos.confruntarea.excel.importer;
 
-import com.mirceanealcos.confruntarea.entity.Champion;
+import com.mirceanealcos.confruntarea.entity.Item;
+import com.mirceanealcos.confruntarea.entity.enums.ItemType;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,23 +14,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ImportChampionExcelUtil {
-
+public class ImportItemExcelUtil {
     public static final String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    public static final String SHEET = "Champions";
+    public static final String SHEET = "Items";
 
     public static boolean hasExcelFormat(MultipartFile file) {
         return TYPE.equals(file.getContentType());
     }
 
-    public static List<Champion> excelToChampions(InputStream inputStream) {
+    public static List<Item> excelToItems(InputStream inputStream) {
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet sheet = workbook.getSheet(SHEET);
 
             Iterator<Row> rows = sheet.iterator();
 
-            List<Champion> champions = new ArrayList<>();
+            List<Item> items = new ArrayList<>();
 
             int rowNumber = 0;
             while(rows.hasNext()) {
@@ -40,43 +39,43 @@ public class ImportChampionExcelUtil {
                     continue;
                 }
                 Iterator<Cell> cellsInRow = currentRow.iterator();
-                Champion champion = new Champion();
+                Item item = new Item();
                 int cellIdx = 0;
                 while(cellsInRow.hasNext()) {
                     Cell currentCell = cellsInRow.next();
                     switch(cellIdx) {
                         case 0:
-                            champion.setName(currentCell.getStringCellValue());
+                            item.setName(currentCell.getStringCellValue());
                             break;
                         case 1:
-                            Integer hp = Math.toIntExact(Math.round(currentCell.getNumericCellValue()));
-                            champion.setHp(hp);
+                            Integer bonusDamage = Math.toIntExact(Math.round(currentCell.getNumericCellValue()));
+                            item.setBonusDamage(bonusDamage);
                             break;
                         case 2:
-                            Integer damage = Math.toIntExact(Math.round(currentCell.getNumericCellValue()));
-                            champion.setBaseDamage(damage);
+                            Integer hp = Math.toIntExact(Math.round(currentCell.getNumericCellValue()));
+                            item.setBonusHp(hp);
                             break;
                         case 3:
                             Integer price = Math.toIntExact(Math.round(currentCell.getNumericCellValue()));
-                            champion.setPrice(price);
+                            item.setPrice(price);
                             break;
                         case 4:
-                            Integer mana = Math.toIntExact(Math.round(currentCell.getNumericCellValue()));
-                            champion.setMana(mana);
+                            String type = currentCell.getStringCellValue();
+                            item.setType(ItemType.valueOf(type));
                             break;
                         case 5:
-                            champion.setPicture(currentCell.getStringCellValue());
+                            item.setPicture(currentCell.getStringCellValue());
                             break;
                         case 6:
-                            champion.setNameColor(currentCell.getStringCellValue());
+                            item.setNameColor(currentCell.getStringCellValue());
                             break;
                     }
                     cellIdx++;
                 }
-                champions.add(champion);
+                items.add(item);
             }
             workbook.close();
-            return champions;
+            return items;
         }catch (IOException e) {
             throw new RuntimeException("Failed to parse Excel file: " + e.getMessage());
         }
