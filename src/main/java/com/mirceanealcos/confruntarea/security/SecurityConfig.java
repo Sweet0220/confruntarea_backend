@@ -92,6 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
             "/api/users/email/**",
             "/api/users/user-register",
             "/api/users/purchase/**",
+            "/api/users/update/**",
             "/api/champions",
             "/api/items",
             "/api/items/type/**",
