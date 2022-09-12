@@ -154,8 +154,9 @@ public class UserService implements UserDetailsService {
         if(userDTO == null) {
             throw new Exception("Empty body..");
         }
-
+        System.out.println(userDTO.getPassword());
         if(userDTO.getPassword() != null) {
+            System.out.println(userDTO.getPassword());
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             hasChanged = true;
         }
