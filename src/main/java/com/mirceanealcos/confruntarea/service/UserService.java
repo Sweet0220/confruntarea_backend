@@ -101,6 +101,22 @@ public class UserService implements UserDetailsService {
             throw new Exception("Password not present!");
         }
 
+        if(userRegisterDTO.getPassword().length() < 8) {
+            throw new Exception("Password must contain at least 8 characters!");
+        }
+
+        if(!containsNumber(userRegisterDTO.getPassword())) {
+            throw new Exception("Password must contain at least one number!");
+        }
+
+        if(!containsCapitalLetters(userRegisterDTO.getPassword())) {
+            throw new Exception("Password must contain at least one capital letter!");
+        }
+
+        if(!containsSpecialCharacter(userRegisterDTO.getPassword())) {
+            throw new Exception("Password must contain at least one special character!");
+        }
+
         if(userRegisterDTO.getEmail() == null) {
             throw new Exception("Email not present!");
         }
@@ -155,8 +171,24 @@ public class UserService implements UserDetailsService {
             throw new Exception("Empty body..");
         }
         System.out.println(userDTO.getPassword());
-        if(userDTO.getPassword() != null) {
-            System.out.println(userDTO.getPassword());
+        if(userDTO.getPassword() != null && !userDTO.getPassword().equals("")) {
+
+            if(userDTO.getPassword().length() < 8) {
+                throw new Exception("Password must contain at least 8 characters!");
+            }
+
+            if(!containsNumber(userDTO.getPassword())) {
+                throw new Exception("Password must contain at least one number!");
+            }
+
+            if(!containsCapitalLetters(userDTO.getPassword())) {
+                throw new Exception("Password must contain at least one capital letter!");
+            }
+
+            if(!containsSpecialCharacter(userDTO.getPassword())) {
+                throw new Exception("Password must contain at least one special character!");
+            }
+
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             hasChanged = true;
         }
@@ -203,6 +235,36 @@ public class UserService implements UserDetailsService {
         championOwnershipRepository.deleteByUserUsername(user.getUsername());
         itemOwnershipRepository.deleteByUserUsername(username);
         userRepository.delete(user);
+    }
+
+    private boolean containsNumber(String string) {
+        char[] chars = string.toCharArray();
+        for(char c : chars) {
+            if(Character.isDigit(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean containsCapitalLetters(String string) {
+        char[] chars = string.toCharArray();
+        for(char c : chars) {
+            if(Character.isUpperCase(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean containsSpecialCharacter(String string) {
+        char[] chars = string.toCharArray();
+        for(char c : chars) {
+            if(!Character.isLetterOrDigit(c)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private UserDTO toUserDTO(User user) {

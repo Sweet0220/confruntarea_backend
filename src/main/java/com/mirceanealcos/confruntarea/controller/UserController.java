@@ -95,7 +95,13 @@ public class UserController {
             userService.registerUser(userRegisterDTO);
             return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.info(e.getMessage());
+            if(e.getMessage().startsWith("could not execute statement; SQL [n/a]; constraint [user.username];")) {
+                return new ResponseEntity<>("Username is already taken!", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            if(e.getMessage().startsWith("Failed messages: javax.mail.SendFailedException: Invalid Addresses;")) {
+                return new ResponseEntity<>("Invalid email!", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
