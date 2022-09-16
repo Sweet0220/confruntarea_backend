@@ -123,7 +123,7 @@ public class UserService implements UserDetailsService {
 
         User user = new User(userRegisterDTO.getUsername(), userRegisterDTO.getEmail(), userRegisterDTO.getPassword());
         user.setRole("player");
-        user.setFunds(3000);
+        user.setFunds(6000);
         user.setPicture("img1.webp");
         user.setLevel(1);
         user.setExp(0);
