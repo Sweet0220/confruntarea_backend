@@ -213,6 +213,11 @@ public class UserService implements UserDetailsService {
             hasChanged = true;
         }
 
+        if(userDTO.getRole() != null) {
+            user.setRole(userDTO.getRole());
+            hasChanged = true;
+        }
+
         if(userDTO.getExp() != null) {
             user.setExp(userDTO.getExp());
             hasChanged = true;
