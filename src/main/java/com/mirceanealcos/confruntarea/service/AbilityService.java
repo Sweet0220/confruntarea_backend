@@ -6,6 +6,9 @@ import com.mirceanealcos.confruntarea.entity.Champion;
 import com.mirceanealcos.confruntarea.repository.AbilityRepository;
 import com.mirceanealcos.confruntarea.repository.ChampionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,6 +39,15 @@ public class AbilityService {
 
         abilities.forEach(ability -> abilityDTOS.add(toAbilityDTO(ability)));
         return abilityDTOS;
+    }
+
+    public List<AbilityDTO> getAbilityPage(Integer page) {
+        Pageable pageToGet = PageRequest.of(page, 2, Sort.by("name"));
+        List<Ability> abilities = abilityRepository.findAllByOrderByNameAsc(pageToGet);
+        List<AbilityDTO> dtos = new ArrayList<>();
+
+        abilities.forEach(ability -> dtos.add(toAbilityDTO(ability)));
+        return dtos;
     }
 
     public List<Ability> getAllAbilitiesAsEntity() {

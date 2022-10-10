@@ -188,4 +188,18 @@ public class UserController {
         }
     }
 
+    @GetMapping(path = "/page/{page}")
+    public ResponseEntity<List<UserDTO>> getUsersByPage(@PathVariable("page") Integer page) {
+        try {
+            List<UserDTO> dtos = userService.getUserPage(page);
+            if(dtos.isEmpty()) {
+                return new ResponseEntity<>(null, NO_CONTENT);
+            }
+            return new ResponseEntity<>(dtos, OK);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(null, INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

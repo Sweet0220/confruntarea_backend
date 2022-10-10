@@ -8,6 +8,9 @@ import com.mirceanealcos.confruntarea.entity.ItemOwnership;
 import com.mirceanealcos.confruntarea.entity.User;
 import com.mirceanealcos.confruntarea.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -57,6 +60,15 @@ public class UserService implements UserDetailsService {
 
         users.forEach(user -> dtos.add(toUserDTO(user)));
 
+        return dtos;
+    }
+
+    public List<UserDTO> getUserPage(Integer page) {
+        Pageable pageToGet = PageRequest.of(page, 2, Sort.by("username"));
+        List<User> users = userRepository.findAllByOrderByUsernameAsc(pageToGet);
+        List<UserDTO> dtos = new ArrayList<>();
+
+        users.forEach(user -> dtos.add(toUserDTO(user)));
         return dtos;
     }
 

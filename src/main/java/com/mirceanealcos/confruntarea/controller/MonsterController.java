@@ -42,6 +42,19 @@ public class MonsterController {
         }
     }
 
+    @GetMapping(path = "/page/{page}")
+    public ResponseEntity<List<MonsterDTO>> getMonsterPage(@PathVariable("page") Integer page) {
+        try {
+            List<MonsterDTO> dtos = monsterService.getMonsterPage(page);
+            if(dtos.isEmpty()) {
+                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping(path = "/id/{id}")
     public ResponseEntity<MonsterDTO> getMonsterById(@PathVariable("id") Long id) {
         try {

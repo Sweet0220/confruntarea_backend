@@ -9,6 +9,9 @@ import com.mirceanealcos.confruntarea.repository.ItemOwnershipRepository;
 import com.mirceanealcos.confruntarea.repository.ItemRepository;
 import com.mirceanealcos.confruntarea.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,6 +39,15 @@ public class ItemService {
         items.forEach(item -> itemDTOS.add(toItemDTO(item)));
 
         return itemDTOS;
+    }
+
+    public List<ItemDTO> getItemPage(Integer page) {
+        Pageable pageToGet = PageRequest.of(page, 2, Sort.by("name"));
+        List<Item> items = itemRepository.findAllByOrderByName(pageToGet);
+        List<ItemDTO> dtos = new ArrayList<>();
+
+        items.forEach(item -> dtos.add(toItemDTO(item)));
+        return dtos;
     }
 
     public List<Item> getAllItemsAsEntity() {

@@ -4,6 +4,9 @@ import com.mirceanealcos.confruntarea.dto.MonsterDTO;
 import com.mirceanealcos.confruntarea.entity.Monster;
 import com.mirceanealcos.confruntarea.repository.MonsterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,6 +31,15 @@ public class MonsterService {
 
         return monsterDTOS;
 
+    }
+
+    public List<MonsterDTO> getMonsterPage(Integer page) {
+        Pageable pageToGet = PageRequest.of(page, 2, Sort.by("name"));
+        List<Monster> monsters = monsterRepository.findAllByOrderByNameAsc(pageToGet);
+        List<MonsterDTO> dtos = new ArrayList<>();
+
+        monsters.forEach(monster -> dtos.add(toMonsterDTO(monster)));
+        return dtos;
     }
 
     public List<Monster> getAllMonstersAsEntity() {

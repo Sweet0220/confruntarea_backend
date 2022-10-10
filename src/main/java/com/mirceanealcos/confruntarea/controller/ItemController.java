@@ -41,6 +41,20 @@ public class ItemController {
         }
     }
 
+    @GetMapping(path = "/page/{page}")
+    public ResponseEntity<List<ItemDTO>> getItemPage(@PathVariable("page") Integer page) {
+        try {
+            List<ItemDTO> dtos = itemService.getItemPage(page);
+            if(dtos.isEmpty()) {
+                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping(path = "/type/{type}")
     public ResponseEntity<List<ItemDTO>> getItemsByType(@PathVariable("type") ItemType type) {
         try {

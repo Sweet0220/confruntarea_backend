@@ -2,6 +2,7 @@ package com.mirceanealcos.confruntarea.repository;
 
 import com.mirceanealcos.confruntarea.entity.Item;
 import com.mirceanealcos.confruntarea.entity.enums.ItemType;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +20,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Item findByName(String name);
 
     List<Item> findByOwnershipsUserId(Long user_id);
+
+    List<Item> findAllByOrderByName(Pageable pageable);
 
 }

@@ -1,6 +1,7 @@
 package com.mirceanealcos.confruntarea.repository;
 
 import com.mirceanealcos.confruntarea.entity.Monster;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,5 +17,7 @@ public interface MonsterRepository extends JpaRepository<Monster, Long> {
     List<Monster> findByLevel(Integer level);
 
     Monster findByName(String name);
+
+    List<Monster> findAllByOrderByNameAsc(Pageable pageable);
 
 }

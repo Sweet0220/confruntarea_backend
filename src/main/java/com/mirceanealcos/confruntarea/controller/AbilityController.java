@@ -39,6 +39,20 @@ public class AbilityController {
         }
     }
 
+    @GetMapping(path = "/page/{page}")
+    public ResponseEntity<List<AbilityDTO>> getAbilityPage(@PathVariable("page") Integer page) {
+        try {
+            List<AbilityDTO> dtos = abilityService.getAbilityPage(page);
+            if(dtos.isEmpty()) {
+                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }catch(Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping(path = "/champion_name/{name}")
     public ResponseEntity<List<AbilityDTO>> getAbilitiesByChampionName(@PathVariable("name") String name) {
         try {

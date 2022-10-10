@@ -43,6 +43,19 @@ public class ChampionController {
         }
     }
 
+    @GetMapping(path = "/page/{page}")
+    public ResponseEntity<List<ChampionDTO>> getChampionPage(@PathVariable("page") Integer page) {
+        try {
+            List<ChampionDTO> dtos = championService.getChampionPage(page);
+            if(dtos.isEmpty()) {
+                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping(path = "/id/{id}")
     public ResponseEntity<ChampionDTO> getChampionById(@PathVariable("id") Long id) {
         try {
